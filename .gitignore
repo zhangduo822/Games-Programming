@@ -6,7 +6,6 @@
 /[Bb]uild/
 /[Uu]ser[Ss]ettings/
 /[Ll]ocalPackageCache/
-/[Pp]ackages/
 Assets/External/
 *.csproj.bak
 *.sln.bak
@@ -17,3 +16,8 @@ Assets/External/
 *.sln.docstates
 .DS_Store
 Thumbs.db
+
+# Keep Packages manifest but ignore actual package contents
+/Packages/*
+!/Packages/manifest.json
+!/Packages/packages-lock.json

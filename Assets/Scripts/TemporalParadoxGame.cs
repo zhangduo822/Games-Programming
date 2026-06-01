@@ -43,16 +43,33 @@ public class TemporalParadoxGame : MonoBehaviour
                 cloneManager = gameObject.AddComponent<CloneManager>();
             }
         }
-        if (clonePrefab != null)
+
+        if (recorder == null)
+        {
+            recorder = GetComponent<ReplayRecorder2D>();
+        }
+
+        if (clonePrefab == null)
+        {
+            clonePrefab = Resources.Load<ReplayClone2D>("TimeClonePrefab");
+        }
+
+        if (clonePrefab != null && cloneManager != null)
         {
             cloneManager.SetClonePrefab(clonePrefab);
         }
+    }
+
+    private void Start()
+    {
+        Debug.Log($"[START] TemporalParadoxGame - Recorder: {(recorder != null ? "OK" : "NULL")}, CloneManager: {(cloneManager != null ? "OK" : "NULL")}, ClonePrefab: {(clonePrefab != null ? "OK" : "NULL")}");
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            Debug.Log("[DEBUG] R key pressed!");
             ToggleRecording();
         }
 
@@ -61,8 +78,9 @@ public class TemporalParadoxGame : MonoBehaviour
             QuickReset();
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && cloneManager.CloneCount > 0)
+        if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log($"[DEBUG] E key pressed! Pending: {pendingTimelines.Count}, Active: {cloneManager.CloneCount}");
             SpawnAllPendingClones();
         }
 
@@ -76,16 +94,20 @@ public class TemporalParadoxGame : MonoBehaviour
     {
         if (recorder == null)
         {
+            Debug.LogWarning("ToggleRecording: Recorder is null!");
             return;
         }
 
         if (recorder.IsRecording)
         {
+            Debug.Log("ToggleRecording: Stopping recording...");
             RecordedTimeline timeline = recorder.StopRecording();
+            Debug.Log($"ToggleRecording: Timeline has {timeline?.Frames?.Count ?? 0} frames");
             if (timeline != null && timeline.Frames.Count > 0)
             {
                 pendingTimelines.Add(timeline);
                 UpdateRecordingMessage();
+                Debug.Log($"ToggleRecording: Added timeline to pending. Total pending: {pendingTimelines.Count}");
             }
         }
         else
@@ -96,6 +118,7 @@ public class TemporalParadoxGame : MonoBehaviour
                 return;
             }
 
+            Debug.Log("ToggleRecording: Starting recording...");
             recorder.StartRecording();
             ShowMessage("Recording... move to a pressure plate, then press R.");
         }
@@ -116,19 +139,36 @@ public class TemporalParadoxGame : MonoBehaviour
 
     private void SpawnAllPendingClones()
     {
+        Debug.Log($"[SpawnAllPendingClones] Called - pending: {pendingTimelines.Count}, player: {(player != null ? "OK" : "NULL")}");
+
         if (pendingTimelines.Count == 0)
         {
             ShowMessage("No recordings to spawn. Press R to record first.");
             return;
         }
 
+        if (player == null)
+        {
+            Debug.LogError("[SpawnAllPendingClones] Player is null!");
+            return;
+        }
+
         cloneManager.RemoveAllClones();
         player.ResetState();
 
-        Vector3 spawnPosition = player.transform.position;
         foreach (var timeline in pendingTimelines)
         {
-            cloneManager.SpawnClone(spawnPosition, timeline);
+            Vector3 spawnPosition = player.transform.position;
+            if (timeline != null && timeline.Frames != null && timeline.Frames.Count > 0)
+            {
+                spawnPosition = timeline.Frames[0].Position;
+            }
+            Debug.Log($"[SpawnAllPendingClones] Spawning clone at {spawnPosition}");
+            ReplayClone2D clone = cloneManager.SpawnClone(spawnPosition, timeline);
+            if (clone == null)
+            {
+                Debug.LogError("[SpawnAllPendingClones] Clone spawn returned null!");
+            }
         }
 
         pendingTimelines.Clear();

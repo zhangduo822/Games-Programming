@@ -322,7 +322,7 @@ public static class TemporalParadoxSceneBuilder
         controller.SetReplayMode(true);
         clone.AddComponent<ReplayClone2D>();
 
-        string prefabPath = "Assets/TimeClonePrefab.prefab";
+        string prefabPath = "Assets/Resources/TimeClonePrefab.prefab";
         GameObject prefab = PrefabUtility.SaveAsPrefabAsset(clone, prefabPath);
 
         if (prefab != null)
