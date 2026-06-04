@@ -154,7 +154,6 @@ public class TemporalParadoxGame : MonoBehaviour
         }
 
         cloneManager.RemoveAllClones();
-        player.ResetState();
 
         foreach (var timeline in pendingTimelines)
         {
