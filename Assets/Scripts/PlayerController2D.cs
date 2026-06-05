@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerController2D : MonoBehaviour, IResettable
 {
     [SerializeField] private float moveSpeed = 6f;
-    [SerializeField] private float jumpForce = 12f;
-    [SerializeField] private LayerMask groundMask = ~0;
+    [SerializeField] private float jumpForce = 5.4f;
+    [SerializeField] private float groundedNormalThreshold = 0.35f;
     [SerializeField] private bool controlledByReplay;
 
     private Rigidbody2D rb;
@@ -94,10 +94,23 @@ public class PlayerController2D : MonoBehaviour, IResettable
 
     private bool IsGrounded()
     {
-        Bounds bounds = bodyCollider.bounds;
-        Vector2 center = new Vector2(bounds.center.x, bounds.min.y - 0.05f);
-        Vector2 size = new Vector2(bounds.size.x * 0.85f, 0.1f);
-        Collider2D hit = Physics2D.OverlapBox(center, size, 0f, groundMask);
-        return hit != null && hit.gameObject != gameObject;
+        ContactPoint2D[] contacts = new ContactPoint2D[8];
+        int contactCount = bodyCollider.GetContacts(contacts);
+
+        for (int i = 0; i < contactCount; i++)
+        {
+            ContactPoint2D contact = contacts[i];
+            if (contact.collider == null || contact.collider.isTrigger)
+            {
+                continue;
+            }
+
+            if (contact.normal.y >= groundedNormalThreshold)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
