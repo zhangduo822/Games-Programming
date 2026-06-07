@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8123522091085512665}
   - component: {fileID: 4305932975797020433}
   - component: {fileID: 6723756151058478751}
+  - component: {fileID: 6382459910051122334}
   m_Layer: 0
   m_Name: TimeClonePrefab
   m_TagString: Clone
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -20, y: -20, z: 0}
-  m_LocalScale: {x: 0.65, y: 1.05, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 9
-  m_Sprite: {fileID: 10905, guid: 0000000000000000E000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 0.25, g: 0.9, b: 1, a: 0.65}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_DrawMode: 1
+  m_Size: {x: 0.65, y: 1.05}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -125,13 +126,13 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    newSize: {x: 0.65, y: 1.05}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.65, y: 1.05}
   m_EdgeRadius: 0
 --- !u!50 &8123522091085512665
 Rigidbody2D:
@@ -173,10 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  jumpForce: 12
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  jumpForce: 7
+  groundedNormalThreshold: 0.35
   controlledByReplay: 1
 --- !u!114 &6723756151058478751
 MonoBehaviour:
@@ -190,3 +189,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb58baf06785ba4d9f5674d0fdc11f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6382459910051122334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004524846806278410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f9f4a62980d4dd2bb9b41b0c8f0e4b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pixelsPerUnit: 16
+  tunicColor: {r: 0.25, g: 0.47, b: 0.93, a: 1}
+  pantsColor: {r: 0.16, g: 0.22, b: 0.45, a: 1}
+  skinColor: {r: 0.97, g: 0.84, b: 0.72, a: 1}
+  hairColor: {r: 0.14, g: 0.1, b: 0.08, a: 1}
+  outlineColor: {r: 0.07, g: 0.09, b: 0.14, a: 1}
+  visualRole: 1

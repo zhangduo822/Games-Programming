@@ -275,6 +275,8 @@ public static class TemporalParadoxSceneBuilder
         Rigidbody2D rb = player.AddComponent<Rigidbody2D>();
         rb.freezeRotation = true;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        var visual = player.AddComponent<SimpleHumanoidVisual>();
+        visual.SetVisualRole(SimpleHumanoidVisual.VisualRole.Player);
         return player.AddComponent<PlayerController2D>();
     }
 
@@ -320,6 +322,8 @@ public static class TemporalParadoxSceneBuilder
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         PlayerController2D controller = clone.AddComponent<PlayerController2D>();
         controller.SetReplayMode(true);
+        var visual = clone.AddComponent<SimpleHumanoidVisual>();
+        visual.SetVisualRole(SimpleHumanoidVisual.VisualRole.Clone);
         clone.AddComponent<ReplayClone2D>();
 
         string prefabPath = "Assets/Resources/TimeClonePrefab.prefab";
@@ -339,9 +343,11 @@ public static class TemporalParadoxSceneBuilder
     {
         GameObject obj = new GameObject(name);
         obj.transform.position = position;
-        obj.transform.localScale = scale;
+        obj.transform.localScale = Vector3.one;
 
         SpriteRenderer renderer = SpriteBoxFactory.SetupSpriteBox(obj, color, sortingOrder);
+        renderer.drawMode = SpriteDrawMode.Sliced;
+        renderer.size = new Vector2(scale.x, scale.y);
 
         if (renderer.sprite == null)
         {
@@ -350,7 +356,7 @@ public static class TemporalParadoxSceneBuilder
             renderer.sprite = white;
         }
 
-        BoxCollider2D collider = SpriteBoxFactory.SetupBoxCollider2D(obj, trigger, Vector2.one);
+        BoxCollider2D collider = SpriteBoxFactory.SetupBoxCollider2D(obj, trigger, new Vector2(scale.x, scale.y));
         return obj;
     }
 
