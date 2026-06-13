@@ -1,23 +1,29 @@
-# Unity
+# Unity generated folders
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
 /[Ll]ogs/
 /[Bb]uild/
+/[Bb]uilds/
 /[Uu]ser[Ss]ettings/
 /[Ll]ocalPackageCache/
-Assets/External/
+
+# Unity and IDE user files
 *.csproj.bak
 *.sln.bak
-.idea/
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
+.vs/
+.idea/
+.vscode/
+
+# OS files
 .DS_Store
 Thumbs.db
 
-# Keep Packages manifest but ignore actual package contents
+# Keep package manifest files, ignore downloaded packages if they appear.
 /Packages/*
 !/Packages/manifest.json
 !/Packages/packages-lock.json

@@ -19,11 +19,13 @@ public class VisualFeedback : MonoBehaviour
     private float pulseTime;
     private bool initialized;
 
+    // Finds the player renderer when the feedback component starts.
     private void Awake()
     {
         TryFindPlayerRenderer();
     }
 
+    // Attempts to locate and cache the player's sprite renderer.
     private void TryFindPlayerRenderer()
     {
         if (playerRenderer != null)
@@ -45,6 +47,7 @@ public class VisualFeedback : MonoBehaviour
         initialized = playerRenderer != null;
     }
 
+    // Connects feedback effects to the recorder and clone manager.
     public void Initialize(ReplayRecorder2D replayRecorder, CloneManager clones)
     {
         recorder = replayRecorder;
@@ -52,6 +55,7 @@ public class VisualFeedback : MonoBehaviour
         TryFindPlayerRenderer();
     }
 
+    // Updates player and clone visual feedback each frame.
     private void Update()
     {
         if (!initialized)
@@ -64,6 +68,7 @@ public class VisualFeedback : MonoBehaviour
         UpdateCloneEffects();
     }
 
+    // Pulses the player sprite while recording is active.
     private void UpdateRecordingEffects()
     {
         if (playerRenderer == null || playerRenderer.gameObject == null) return;
@@ -94,6 +99,7 @@ public class VisualFeedback : MonoBehaviour
         }
     }
 
+    // Pulses active clone sprites during replay playback.
     private void UpdateCloneEffects()
     {
         if (cloneManager == null) return;
@@ -115,6 +121,7 @@ public class VisualFeedback : MonoBehaviour
         }
     }
 
+    // Applies the pending color to the configured clone renderer.
     public void SetPendingCloneColor()
     {
         if (cloneRenderer != null)
@@ -131,18 +138,10 @@ public class SpriteOutline : MonoBehaviour
     public float OutlineWidth = 0.05f;
 
     private SpriteRenderer spriteRenderer;
-    private GameObject outlineObject;
 
+    // Caches the sprite renderer used by the outline effect.
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    private void OnDestroy()
-    {
-        if (outlineObject != null)
-        {
-            Destroy(outlineObject);
-        }
     }
 }

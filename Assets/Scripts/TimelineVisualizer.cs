@@ -17,6 +17,7 @@ public class TimelineVisualizer : MonoBehaviour
     private RectTransform rectTransform;
     private bool initialized;
 
+    // Prepares timeline progress storage for clone bars.
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -26,6 +27,7 @@ public class TimelineVisualizer : MonoBehaviour
         }
     }
 
+    // Connects the visualizer to the recorder and clone manager.
     public void Initialize(ReplayRecorder2D replayRecorder, CloneManager clones)
     {
         recorder = replayRecorder;
@@ -33,6 +35,7 @@ public class TimelineVisualizer : MonoBehaviour
         initialized = true;
     }
 
+    // Updates all timeline UI bars once initialized.
     private void Update()
     {
         if (!initialized) return;
@@ -41,6 +44,7 @@ public class TimelineVisualizer : MonoBehaviour
         UpdateCloneTimelines();
     }
 
+    // Shows live recording progress in the recording bar.
     private void UpdateRecordingBar()
     {
         if (recordingFill == null) return;
@@ -57,6 +61,7 @@ public class TimelineVisualizer : MonoBehaviour
         }
     }
 
+    // Shows active clone playback progress in clone timeline bars.
     private void UpdateCloneTimelines()
     {
         if (cloneManager == null || cloneTimelines == null) return;

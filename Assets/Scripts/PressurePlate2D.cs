@@ -12,6 +12,7 @@ public class PressurePlate2D : MonoBehaviour, IResettable
 
     public bool IsPressed { get; private set; }
 
+    // Initializes the plate collider and stores its unpressed position.
     private void Awake()
     {
         plateCollider = GetComponent<BoxCollider2D>();
@@ -20,16 +21,19 @@ public class PressurePlate2D : MonoBehaviour, IResettable
         restPosition = transform.position;
     }
 
+    // Refreshes the pressed state during the physics step.
     private void FixedUpdate()
     {
         SetPressed(HasWeight());
     }
 
+    // Restores the plate to its unpressed state.
     public void ResetState()
     {
         SetPressed(false);
     }
 
+    // Detects whether a player, clone, or crate is pressing the plate.
     private bool HasWeight()
     {
         Bounds bounds = plateCollider.bounds;
@@ -45,7 +49,7 @@ public class PressurePlate2D : MonoBehaviour, IResettable
                 continue;
             }
 
-            if (hit.CompareTag("Player") || hit.CompareTag("Clone"))
+            if (hit.CompareTag("Player") || hit.CompareTag("Clone") || hit.GetComponent<PushableCrate2D>() != null)
             {
                 return true;
             }
@@ -54,6 +58,7 @@ public class PressurePlate2D : MonoBehaviour, IResettable
         return false;
     }
 
+    // Updates the plate position and color for the requested pressed state.
     private void SetPressed(bool pressed)
     {
         IsPressed = pressed;

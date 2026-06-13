@@ -5,14 +5,14 @@ using UnityEngine;
 public class SwitchablePlatform2D : MonoBehaviour, IResettable
 {
     [SerializeField] private bool startsActive = true;
-    [SerializeField] private float moveDistance = 0.5f;
+    [SerializeField] private float moveDistance = 1.2f;
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private Vector3 activePosition;
     [SerializeField] private Vector3 inactivePosition;
     [SerializeField] private PressurePlate2D linkedPlate;
 
     private SpriteRenderer spriteRenderer;
-    private BoxCollider2D collider;
+    private BoxCollider2D platformCollider;
     private Vector3 startPosition;
     private Vector3 targetPosition;
     private bool isActive;
@@ -20,30 +20,38 @@ public class SwitchablePlatform2D : MonoBehaviour, IResettable
 
     public bool IsActive => isActive;
 
+    // Initializes platform positions, collider state, and visual color.
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        collider = GetComponent<BoxCollider2D>();
+        platformCollider = GetComponent<BoxCollider2D>();
         startPosition = transform.position;
         activePosition = startPosition + Vector3.up * moveDistance;
         inactivePosition = startPosition;
         isActive = startsActive;
         targetPosition = isActive ? activePosition : inactivePosition;
 
-        if (collider != null)
+        if (platformCollider != null)
         {
-            collider.isTrigger = false;
+            platformCollider.isTrigger = false;
+            platformCollider.enabled = isActive;
         }
 
         UpdateVisuals();
     }
 
+    // Syncs the initial active state from the linked plate at runtime.
     private void Start()
     {
         if (linkedPlate != null)
         {
             isActive = linkedPlate.IsPressed;
             targetPosition = isActive ? activePosition : inactivePosition;
+            if (platformCollider != null)
+            {
+                platformCollider.enabled = isActive;
+            }
+            UpdateVisuals();
         }
     }
 
@@ -51,12 +59,15 @@ public class SwitchablePlatform2D : MonoBehaviour, IResettable
 
     public PressurePlate2D LinkedPlate => linkedPlate ?? linkedPlateRef;
 
+    // Links this platform to a pressure plate and makes it start inactive.
     public void LinkToPlate(PressurePlate2D plate)
     {
+        startsActive = false;
         linkedPlate = plate;
         linkedPlateRef = plate;
     }
 
+    // Moves the platform toward its active or inactive position.
     private void Update()
     {
         PressurePlate2D plate = linkedPlate ?? linkedPlateRef;
@@ -68,7 +79,7 @@ public class SwitchablePlatform2D : MonoBehaviour, IResettable
                 isActive = shouldBeActive;
                 targetPosition = isActive ? activePosition : inactivePosition;
                 UpdateVisuals();
-                if (collider != null) collider.enabled = isActive;
+                if (platformCollider != null) platformCollider.enabled = isActive;
             }
         }
 
@@ -85,19 +96,22 @@ public class SwitchablePlatform2D : MonoBehaviour, IResettable
         }
     }
 
+    // Sets whether the platform should be raised and collidable.
     public void SetActive(bool active)
     {
         isActive = active;
         targetPosition = isActive ? activePosition : inactivePosition;
         UpdateVisuals();
-        if (collider != null) collider.enabled = isActive;
+        if (platformCollider != null) platformCollider.enabled = isActive;
     }
 
+    // Toggles the platform between active and inactive states.
     public void Toggle()
     {
         SetActive(!isActive);
     }
 
+    // Updates the platform color to reflect its active state.
     private void UpdateVisuals()
     {
         if (spriteRenderer != null)
@@ -106,6 +120,7 @@ public class SwitchablePlatform2D : MonoBehaviour, IResettable
         }
     }
 
+    // Restores the platform to its configured starting state.
     public void ResetState()
     {
         isActive = startsActive;
@@ -113,5 +128,9 @@ public class SwitchablePlatform2D : MonoBehaviour, IResettable
         transform.position = startPosition;
         isMoving = false;
         UpdateVisuals();
+        if (platformCollider != null)
+        {
+            platformCollider.enabled = isActive;
+        }
     }
 }

@@ -63,19 +63,27 @@
     <Compile Include="Assets\Scripts\VisualFeedback.cs" />
     <Compile Include="Assets\Scripts\IResettable.cs" />
     <Compile Include="Assets\Scripts\PressurePlate2D.cs" />
+    <Compile Include="Assets\Scripts\Level2CharacterSettings.cs" />
     <Compile Include="Assets\Scripts\TimelineVisualizer.cs" />
+    <Compile Include="Assets\Scripts\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\PlayerController2D.cs" />
     <Compile Include="Assets\Scripts\Door2D.cs" />
     <Compile Include="Assets\Scripts\RecordedFrame.cs" />
     <Compile Include="Assets\Scripts\Goal2D.cs" />
     <Compile Include="Assets\Scripts\SpriteBoxFactory.cs" />
     <Compile Include="Assets\Scripts\SwitchablePlatform2D.cs" />
+    <Compile Include="Assets\Scripts\HazardZone2D.cs" />
     <Compile Include="Assets\Scripts\ReplayClone2D.cs" />
+    <Compile Include="Assets\Scripts\StoryIntroController.cs" />
+    <Compile Include="Assets\Scripts\SpriteFrameAnimator2D.cs" />
     <Compile Include="Assets\Scripts\PushableCrate2D.cs" />
     <Compile Include="Assets\Scripts\TemporalParadoxGame.cs" />
     <Compile Include="Assets\Scripts\DualPlateDoor2D.cs" />
+    <Compile Include="Assets\Scripts\UIImageFrameAnimator.cs" />
     <Compile Include="Assets\Scripts\CloneManager.cs" />
     <Compile Include="Assets\Scripts\RecordedTimeline.cs" />
+    <Compile Include="Assets\Scripts\LayeredCloudBackground2D.cs" />
+    <Compile Include="Assets\Scripts\SimpleHumanoidVisual.cs" />
     <Compile Include="Assets\Scripts\ReplayRecorder2D.cs" />
   </ItemGroup>
   <ItemGroup>
