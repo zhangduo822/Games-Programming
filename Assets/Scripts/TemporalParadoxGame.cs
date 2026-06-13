@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TemporalParadoxGame : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class TemporalParadoxGame : MonoBehaviour
     [SerializeField] private Door2D door;
     [SerializeField] private PressurePlate2D leftPlate;
     [SerializeField] private PressurePlate2D rightPlate;
+    [SerializeField] private string nextSceneName;
 
     private readonly List<RecordedTimeline> pendingTimelines = new List<RecordedTimeline>();
     private string message = "Press R to record. Hold the left plate, then press R again.";
@@ -17,7 +19,9 @@ public class TemporalParadoxGame : MonoBehaviour
     private const int MAX_CLONES = 3;
 
     public bool IsCleared { get; private set; }
+    public string NextSceneName => nextSceneName;
 
+    // Wires the core gameplay references used by this level controller.
     public void Configure(PlayerController2D livePlayer, ReplayRecorder2D replayRecorder, ReplayClone2D prefab, Door2D targetDoor, PressurePlate2D left, PressurePlate2D right)
     {
         player = livePlayer;
@@ -33,6 +37,13 @@ public class TemporalParadoxGame : MonoBehaviour
         }
     }
 
+    // Sets the scene that should load when the level is cleared.
+    public void SetNextSceneName(string sceneName)
+    {
+        nextSceneName = sceneName;
+    }
+
+    // Finds required components and fills default scene-transition settings.
     private void Awake()
     {
         if (cloneManager == null)
@@ -58,13 +69,20 @@ public class TemporalParadoxGame : MonoBehaviour
         {
             cloneManager.SetClonePrefab(clonePrefab);
         }
+
+        if (string.IsNullOrWhiteSpace(nextSceneName))
+        {
+            nextSceneName = GetDefaultNextSceneName();
+        }
     }
 
+    // Logs startup wiring information for debugging.
     private void Start()
     {
         Debug.Log($"[START] TemporalParadoxGame - Recorder: {(recorder != null ? "OK" : "NULL")}, CloneManager: {(cloneManager != null ? "OK" : "NULL")}, ClonePrefab: {(clonePrefab != null ? "OK" : "NULL")}");
     }
 
+    // Handles recording, reset, clone spawning, and message timers.
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -90,6 +108,7 @@ public class TemporalParadoxGame : MonoBehaviour
         }
     }
 
+    // Starts or stops recording the player's current timeline.
     private void ToggleRecording()
     {
         if (recorder == null)
@@ -124,6 +143,7 @@ public class TemporalParadoxGame : MonoBehaviour
         }
     }
 
+    // Updates the HUD message after saving a recording.
     private void UpdateRecordingMessage()
     {
         int total = cloneManager.CloneCount + pendingTimelines.Count;
@@ -137,6 +157,7 @@ public class TemporalParadoxGame : MonoBehaviour
         }
     }
 
+    // Spawns all saved recordings as replay clones.
     private void SpawnAllPendingClones()
     {
         Debug.Log($"[SpawnAllPendingClones] Called - pending: {pendingTimelines.Count}, player: {(player != null ? "OK" : "NULL")}");
@@ -153,12 +174,19 @@ public class TemporalParadoxGame : MonoBehaviour
             return;
         }
 
-        cloneManager.RemoveAllClones();
+        int remainingSlots = MAX_CLONES - cloneManager.CloneCount;
+        if (pendingTimelines.Count > remainingSlots)
+        {
+            ShowMessage($"Only {remainingSlots} clone slot(s) left. Press Q to reset clones.");
+            return;
+        }
+
         if (player != null)
         {
             player.ClearReplayInput();
         }
 
+        int spawnedCount = 0;
         foreach (var timeline in pendingTimelines)
         {
             Vector3 spawnPosition = player.transform.position;
@@ -172,12 +200,17 @@ public class TemporalParadoxGame : MonoBehaviour
             {
                 Debug.LogError("[SpawnAllPendingClones] Clone spawn returned null!");
             }
+            else
+            {
+                spawnedCount++;
+            }
         }
 
         pendingTimelines.Clear();
-        ShowMessage($"Spawned {cloneManager.CloneCount} clone(s)! Cooperate to solve the puzzle.");
+        ShowMessage($"Spawned {spawnedCount} new clone(s). Active clones: {cloneManager.CloneCount}/{MAX_CLONES}.");
     }
 
+    // Clears clones and resets all resettable gameplay objects.
     public void QuickReset()
     {
         cloneManager.RemoveAllClones();
@@ -188,31 +221,64 @@ public class TemporalParadoxGame : MonoBehaviour
             recorder.StopRecording();
         }
 
-        if (player != null)
+        MonoBehaviour[] behaviours = FindObjectsOfType<MonoBehaviour>(true);
+        for (int i = 0; i < behaviours.Length; i++)
         {
-            player.ResetState();
+            if (behaviours[i] is IResettable resettable)
+            {
+                resettable.ResetState();
+            }
         }
-
-        if (leftPlate != null) leftPlate.ResetState();
-        if (rightPlate != null) rightPlate.ResetState();
-        if (door != null) door.ResetState();
 
         IsCleared = false;
         ShowMessage("Reset. Press R to start recording.");
     }
 
+    // Marks the level complete and loads the configured next scene.
     public void MarkCleared()
     {
         IsCleared = true;
+
+        if (!string.IsNullOrWhiteSpace(nextSceneName) && Application.CanStreamedLevelBeLoaded(nextSceneName))
+        {
+            ShowMessage($"Level cleared! Loading {nextSceneName}...");
+            SceneManager.LoadScene(nextSceneName);
+            return;
+        }
+
         ShowMessage("Level cleared! Press Q to retry.");
     }
 
+    // Chooses the next scene based on the current scene name.
+    private string GetDefaultNextSceneName()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName == "SampleScene")
+        {
+            return "Level2";
+        }
+
+        if (currentSceneName == "Level2")
+        {
+            return "Level3";
+        }
+
+        if (currentSceneName == "Level3")
+        {
+            return "EndingStory";
+        }
+
+        return string.Empty;
+    }
+
+    // Shows a temporary HUD message to the player.
     private void ShowMessage(string text)
     {
         message = text;
         messageTimer = 3f;
     }
 
+    // Draws the simple debug HUD and controls reminder.
     private void OnGUI()
     {
         GUIStyle style = new GUIStyle(GUI.skin.box)

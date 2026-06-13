@@ -15,6 +15,7 @@ public class ReplayClone2D : MonoBehaviour
     public float TotalDuration => timeline != null ? timeline.Duration : 0f;
     public float Progress => TotalDuration > 0f ? elapsed / TotalDuration : 0f;
 
+    // Sets this object up as a replay-controlled clone.
     private void Awake()
     {
         controller = GetComponent<PlayerController2D>();
@@ -22,6 +23,7 @@ public class ReplayClone2D : MonoBehaviour
         gameObject.tag = "Clone";
     }
 
+    // Advances the clone through its recorded timeline.
     private void Update()
     {
         if (!playing || paused || timeline == null)
@@ -45,6 +47,7 @@ public class ReplayClone2D : MonoBehaviour
         }
     }
 
+    // Starts playing a recorded timeline from the beginning.
     public void Play(RecordedTimeline recordedTimeline)
     {
         timeline = recordedTimeline;
@@ -52,23 +55,22 @@ public class ReplayClone2D : MonoBehaviour
         elapsed = 0f;
         playing = timeline != null && timeline.Frames.Count > 0;
         paused = false;
-        if (playing)
-        {
-            RecordedFrame first = timeline.Frames[0];
-            controller.ForceState(first.Position, first.Velocity);
-        }
+        controller.ClearReplayInput();
     }
 
+    // Pauses timeline playback without clearing clone state.
     public void Pause()
     {
         paused = true;
     }
 
+    // Resumes timeline playback after a pause.
     public void Resume()
     {
         paused = false;
     }
 
+    // Stops playback and clears the clone's replay inputs.
     public void Stop()
     {
         playing = false;

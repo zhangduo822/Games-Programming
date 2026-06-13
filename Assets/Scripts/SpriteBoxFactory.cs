@@ -2,10 +2,13 @@ using UnityEngine;
 
 public static class SpriteBoxFactory
 {
+    private const string WhiteSpriteResourcePath = "Sprites/WhiteSquare";
+
     private static Sprite whiteSprite;
     private static Texture2D whiteTexture;
     private static Material defaultMaterial;
 
+    // Creates a one-pixel white texture used as a fallback sprite source.
     private static Texture2D CreateWhiteTexture()
     {
         Texture2D tex = new Texture2D(1, 1, TextureFormat.RGBA32, false);
@@ -15,9 +18,16 @@ public static class SpriteBoxFactory
         return tex;
     }
 
+    // Ensures a usable white sprite exists for generated boxes.
     private static void EnsureWhiteSpriteExists()
     {
         if (whiteSprite != null && whiteSprite.texture != null) return;
+
+        whiteSprite = Resources.Load<Sprite>(WhiteSpriteResourcePath);
+        if (whiteSprite != null && whiteSprite.texture != null)
+        {
+            return;
+        }
 
         if (whiteTexture == null || whiteTexture.width <= 0)
         {
@@ -58,6 +68,7 @@ public static class SpriteBoxFactory
         }
     }
 
+    // Adds or configures a SpriteRenderer to display a simple colored box.
     public static SpriteRenderer SetupSpriteBox(GameObject obj, Color color, int sortingOrder)
     {
         Remove3DComponents(obj);
@@ -77,6 +88,7 @@ public static class SpriteBoxFactory
         return renderer;
     }
 
+    // Adds or configures a 2D box collider with the requested trigger state.
     public static BoxCollider2D SetupBoxCollider2D(GameObject obj, bool isTrigger, Vector2 size)
     {
         BoxCollider2D collider = obj.GetComponent<BoxCollider2D>();
@@ -91,6 +103,7 @@ public static class SpriteBoxFactory
         return collider;
     }
 
+    // Removes incompatible 3D components from generated 2D objects.
     private static void Remove3DComponents(GameObject obj)
     {
         Remove(obj.GetComponent<Collider>());
@@ -98,6 +111,7 @@ public static class SpriteBoxFactory
         Remove(obj.GetComponent<MeshFilter>());
     }
 
+    // Destroys a component safely in play mode or edit mode.
     private static void Remove(Component component)
     {
         if (component == null) return;

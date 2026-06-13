@@ -14,11 +14,13 @@ public class ReplayRecorder2D : MonoBehaviour
     public float RemainingTime => Mathf.Max(0f, maxDuration - elapsed);
     public PlayerController2D Target => target;
 
+    // Assigns the player whose movement should be recorded.
     public void Configure(PlayerController2D player)
     {
         target = player;
     }
 
+    // Captures player frames while an active recording is running.
     private void Update()
     {
         if (!IsRecording || target == null)
@@ -41,6 +43,7 @@ public class ReplayRecorder2D : MonoBehaviour
         }
     }
 
+    // Begins a new movement recording for the configured player.
     public void StartRecording()
     {
         if (target == null)
@@ -55,6 +58,7 @@ public class ReplayRecorder2D : MonoBehaviour
         Capture();
     }
 
+    // Finishes the current recording and returns its timeline.
     public RecordedTimeline StopRecording()
     {
         if (!IsRecording)
@@ -70,6 +74,7 @@ public class ReplayRecorder2D : MonoBehaviour
         return activeTimeline;
     }
 
+    // Stores one snapshot of the player's current movement state.
     private void Capture()
     {
         activeTimeline.Frames.Add(new RecordedFrame
