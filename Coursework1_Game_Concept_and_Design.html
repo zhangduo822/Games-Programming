@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Coursework 1 - Game Concept and Design</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 22mm 20mm;
+    }
+
+    body {
+      margin: 0;
+      color: #1f1f1f;
+      background: #f3f3f3;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      line-height: 1.45;
+    }
+
+    main {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: #fff;
+      box-sizing: border-box;
+      padding: 22mm 20mm;
+    }
+
+    h1, h2, h3 {
+      color: #111;
+      line-height: 1.2;
+    }
+
+    h1 {
+      margin: 0 0 8pt;
+      text-align: center;
+      font-size: 22pt;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 18pt;
+      font-weight: bold;
+      margin: 0 0 18pt;
+    }
+
+    .meta {
+      margin: 0 auto 20pt;
+      max-width: 105mm;
+    }
+
+    .meta p {
+      margin: 2pt 0;
+    }
+
+    h2 {
+      margin: 18pt 0 6pt;
+      font-size: 14pt;
+      border-bottom: 1px solid #cfcfcf;
+      padding-bottom: 3pt;
+    }
+
+    h3 {
+      margin: 12pt 0 5pt;
+      font-size: 12.5pt;
+    }
+
+    p {
+      margin: 0 0 8pt;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin: 0 0 8pt 18pt;
+      padding: 0;
+    }
+
+    li {
+      margin: 3pt 0;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    .title-rule {
+      border: 0;
+      border-top: 1px solid #999;
+      margin: 18pt 0;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      main {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Coursework 1: Game Concept and Design</h1>
+  <div class="subtitle">Temporal Paradox</div>
+
+  <div class="meta">
+    <p><strong>Student name:</strong> [Your name]</p>
+    <p><strong>Student ID:</strong> [Your student ID]</p>
+    <p><strong>Module:</strong> Game Programming</p>
+    <p><strong>Submission format:</strong> PDF</p>
+  </div>
+
+  <hr class="title-rule">
+
+  <h2>1. Game Title</h2>
+  <p><strong>Temporal Paradox</strong></p>
+
+  <h2>2. One-Sentence Game Idea</h2>
+  <p>Temporal Paradox is a 2D puzzle-platform game in which the player records short versions of their own movement and replays them as time clones in order to solve pressure-plate, door, platform, crate, and hazard puzzles.</p>
+
+  <h2>3. Intended Player Experience</h2>
+  <p>The intended experience is a compact puzzle-platformer built around planning, timing, and spatial reasoning. The player should initially read each level as a simple platform challenge, but then realise that the level cannot be completed by the live character alone. Progress depends on thinking about the player character as both a current actor and a future helper. This gives the game a light "cause and effect" structure: the player performs an action, records it, and later uses that recorded action as part of the solution.</p>
+  <p>The tone should be clear and slightly mysterious rather than fast or chaotic. The game should encourage experimentation, because failed attempts are not treated as major punishment. A quick reset allows the player to try another recording route, improve the timing, or use a different object such as a crate. The main feeling I want to create is the satisfaction of solving a problem by coordinating with a past version of oneself.</p>
+
+  <h2>4. Core Mechanic</h2>
+  <p>The core mechanic is <strong>recording and replaying the player's movement as a time clone</strong>.</p>
+  <p>The player can press a key to start recording a short timeline of movement, jumping, and position. When the recording stops, the timeline is stored. The player can then spawn a clone that replays the stored movement. This clone exists physically in the level and can activate pressure plates, help open doors, and support multi-step puzzle solutions. The mechanic is limited by a maximum number of active clones, so the player must decide which actions are worth recording.</p>
+
+  <h2>5. What the Player Does Moment to Moment</h2>
+  <p>Moment to moment, the player moves left and right, jumps between platforms, observes the state of doors and pressure plates, and records short action sequences. A typical loop is:</p>
+  <ol>
+    <li>Read the level layout and identify blocked paths or inactive platforms.</li>
+    <li>Move the live character to a useful position, such as a pressure plate.</li>
+    <li>Start recording, perform the required movement, then stop recording.</li>
+    <li>Spawn the recorded clone and observe whether it completes the intended task.</li>
+    <li>Continue through the level while the clone repeats the recorded action.</li>
+    <li>Reset and adjust the plan if the timing or position is incorrect.</li>
+  </ol>
+  <p>This loop keeps the controls simple while making the decision-making more interesting. The player is not only reacting to obstacles; they are designing a small sequence of actions that will later run without their direct control.</p>
+
+  <h2>6. Target Player</h2>
+  <p>The target player is someone who enjoys short puzzle-platform games and systems that can be understood through experimentation. The game is suitable for players who are comfortable with basic 2D movement but do not require advanced platforming skills. The main challenge is logical rather than reflex-based.</p>
+  <p>The likely audience includes:</p>
+  <ul>
+    <li>Students or casual PC players looking for a small but thoughtful game.</li>
+    <li>Players who enjoy puzzle games such as Portal, Braid, or The Swapper.</li>
+    <li>Players who like mechanical clarity and levels that can be solved through trial and error.</li>
+  </ul>
+  <p>The prototype is designed for keyboard control on PC, using Unity's 2D physics and simple on-screen prompts.</p>
+
+  <h2>7. Reference Games or Inspirations</h2>
+  <p>The design is influenced by several existing games, but it uses them as design references rather than direct copies.</p>
+  <p><strong>Braid</strong> is a useful reference because it shows how time manipulation can become the central puzzle language of a platform game. Temporal Paradox does not use full rewind, but it shares the idea that time can be treated as a playable resource.</p>
+  <p><strong>The Swapper</strong> is relevant because it uses player copies to solve spatial puzzles. The inspiration here is the idea of separating the player's current body from another body that can still influence the level.</p>
+  <p><strong>Portal</strong> is a reference for level readability and puzzle escalation. Although the mechanic is different, Portal demonstrates how a simple rule can be introduced, tested, and then combined with other elements across later levels.</p>
+  <p><strong>Celeste</strong> is a secondary reference for responsive 2D movement. Temporal Paradox should not be as mechanically demanding, but the movement should still feel immediate and reliable because puzzle solving becomes frustrating if basic movement feels imprecise.</p>
+
+  <h2>8. What Is Original or Creative About the Idea</h2>
+  <p>The creative element is the way the game combines platforming with recorded self-cooperation. The clone is not just an extra character controlled at the same time as the player. Instead, it is a fixed performance created by the player's earlier decision. This changes the role of the player from direct controller to designer of a short timeline.</p>
+  <p>The originality of the prototype also comes from its small-scale puzzle grammar. Pressure plates, doors, switchable platforms, crates, and hazards are familiar elements, but they become more interesting when they must be coordinated with delayed actions. A plate may need a clone, a crate may need to hold a different plate, and a dangerous route may require a clone to perform a task before disappearing. The puzzle is therefore about arranging actions across time, not only moving through space.</p>
+
+  <h2>9. Vertical Slice Plan</h2>
+  <p>The vertical slice should show the complete intended experience in a small amount of content. It does not need a full campaign, but it must prove that the time-clone mechanic works and can support more than one type of puzzle.</p>
+  <p>The planned vertical slice contains:</p>
+  <ul>
+    <li>A main menu and short story introduction.</li>
+    <li>Three playable 2D levels.</li>
+    <li>A live player character with horizontal movement and jumping.</li>
+    <li>A recording system that stores position, velocity, movement input, and jump input.</li>
+    <li>A clone system that replays stored timelines.</li>
+    <li>Pressure plates, doors, crates, switchable platforms, goals, and hazard zones.</li>
+    <li>Simple visual feedback, including animated fire traps and clear door/plate states.</li>
+    <li>A short ending scene after the final level.</li>
+  </ul>
+  <p>The first level should teach the basic recording and plate-door relationship. The second level should add hazards, vertical movement, and a switchable bridge. The third level should combine crates and clone coordination, requiring the player to think about multiple objects and routes together.</p>
+
+  <h2>10. Must-Have, Should-Have, Could-Have, and Cut-First Features</h2>
+  <h3>Must-Have Features</h3>
+  <ul>
+    <li>2D player movement with jumping and collision.</li>
+    <li>A record and replay system for player timelines.</li>
+    <li>Spawnable replay clones with a clear limit.</li>
+    <li>Pressure plates that respond to the player, clones, and crates.</li>
+    <li>Doors that open when the required plates are pressed.</li>
+    <li>Reset functionality so failed puzzle attempts can be retried quickly.</li>
+    <li>At least one complete level with a clear goal and win condition.</li>
+  </ul>
+  <h3>Should-Have Features</h3>
+  <ul>
+    <li>Three levels with increasing puzzle complexity.</li>
+    <li>Switchable platforms linked to pressure plates.</li>
+    <li>Pushable crates as an alternative way to hold plates.</li>
+    <li>Hazards that reset the player or stop clones.</li>
+    <li>Basic story framing through intro and ending scenes.</li>
+    <li>On-screen instructions showing recording status and available controls.</li>
+  </ul>
+  <h3>Could-Have Features</h3>
+  <ul>
+    <li>A more polished timeline user interface.</li>
+    <li>Sound effects for recording, clone spawning, doors, plates, and hazards.</li>
+    <li>Better animation states for idle, walking, jumping, and clone playback.</li>
+    <li>Level-select menu after completing the game.</li>
+    <li>Ghost trail or transparency effects to make clones more readable.</li>
+  </ul>
+  <h3>Cut-First Features</h3>
+  <ul>
+    <li>Complex combat or enemies.</li>
+    <li>Online features, leaderboards, or accounts.</li>
+    <li>Procedural level generation.</li>
+    <li>Large narrative cutscenes.</li>
+    <li>Advanced visual effects that do not directly support puzzle readability.</li>
+  </ul>
+  <p>These cuts keep the project focused on the main mechanic. If development time becomes limited, the priority should be a stable and understandable clone-puzzle loop rather than adding unrelated content.</p>
+
+  <h2>11. Unity Development Plan</h2>
+  <p>The project will be developed in Unity as a 2D game using Rigidbody2D, BoxCollider2D, SpriteRenderer, prefabs, and scene-based level progression. Development should begin with the core player controller and then add the recording system, because every later puzzle system depends on the player and clone behaviour being stable.</p>
+  <p>The development order is:</p>
+  <ol>
+    <li>Build the player controller, including horizontal movement, jumping, collision, and reset behaviour.</li>
+    <li>Implement the replay recorder, storing a short list of sampled frames.</li>
+    <li>Implement the replay clone, reading stored frames and applying position, velocity, and input.</li>
+    <li>Add the clone manager, including clone spawning, clone limits, and cleanup.</li>
+    <li>Build basic puzzle objects: pressure plates, doors, and goals.</li>
+    <li>Add secondary puzzle objects: crates, hazards, and switchable platforms.</li>
+    <li>Build level scenes and test puzzle readability.</li>
+    <li>Add UI feedback for controls, clone count, recording status, and level completion.</li>
+    <li>Add menu, intro, and ending scenes.</li>
+    <li>Polish visuals, fix bugs, and test the full playthrough.</li>
+  </ol>
+  <p>The project should use prefabs and reusable scripts rather than making each level entirely separate. This will reduce repeated work and make later adjustments easier.</p>
+
+  <h2>12. Main Systems and Scripts Expected to Build</h2>
+  <p>The main systems are:</p>
+  <p><strong>PlayerController2D</strong>: Handles live player movement, jumping, replay mode, forced replay state, and reset behaviour.</p>
+  <p><strong>ReplayRecorder2D</strong>: Records the live player's timeline by sampling position, velocity, movement input, and jump input at short intervals.</p>
+  <p><strong>RecordedFrame and RecordedTimeline</strong>: Store the data used by clone replay. These are the data structures behind the time-clone mechanic.</p>
+  <p><strong>ReplayClone2D</strong>: Plays back a recorded timeline and applies the stored frames to a clone character.</p>
+  <p><strong>CloneManager</strong>: Spawns clones, configures their visuals and colliders, tracks active clones, and removes them when the level resets.</p>
+  <p><strong>TemporalParadoxGame</strong>: Controls the main level flow, including recording input, clone spawning, reset, level clear state, and scene transition.</p>
+  <p><strong>PressurePlate2D</strong>: Detects whether the player, a clone, or a crate is pressing a plate.</p>
+  <p><strong>Door2D and DualPlateDoor2D</strong>: Manage door state and link doors to pressure-plate conditions.</p>
+  <p><strong>PushableCrate2D</strong>: Provides physics-based puzzle objects that can hold plates.</p>
+  <p><strong>SwitchablePlatform2D</strong>: Enables or disables platforms based on plate state.</p>
+  <p><strong>HazardZone2D</strong>: Resets the player or stops clones when they touch danger areas.</p>
+  <p><strong>Goal2D</strong>: Detects level completion when the player reaches the goal with the door condition satisfied.</p>
+  <p><strong>VisualFeedback, TimelineVisualizer, SpriteFrameAnimator2D, UIImageFrameAnimator, MainMenuController, and StoryIntroController</strong>: Provide supporting UI, animation, scene, and feedback systems.</p>
+
+  <h2>13. Asset and Resource Plan</h2>
+  <p>The asset plan is deliberately small so the project remains achievable. Most assets will be 2D sprites stored in Unity's Resources folder. The current plan includes character sprites, clone sprites, door sprites, ground and platform tiles, cloud backgrounds, lava or fire-trap animation frames, and simple UI elements.</p>
+  <p>Key resource categories:</p>
+  <ul>
+    <li><strong>Characters</strong>: Player and clone sprites, using different visual roles so the player can distinguish live and replay characters.</li>
+    <li><strong>Environment</strong>: Grass ground, stone platforms, layered sky and cloud background.</li>
+    <li><strong>Puzzle objects</strong>: Doors, pressure plates, crates, switchable platforms, and goals.</li>
+    <li><strong>Hazards</strong>: Lava and animated fire trap frames.</li>
+    <li><strong>UI</strong>: Main menu, recording feedback, clone count, simple instructional text, and story screens.</li>
+  </ul>
+  <p>The visual style should prioritise readability. Puzzle objects must be recognisable at a glance: plates should visibly change when pressed, doors should clearly fade or open, and hazards should be visually distinct from safe platforms. If extra time is available, polish should improve clarity before decoration.</p>
+
+  <h2>14. Legal, Ethical, Social, Accessibility, and Security Considerations</h2>
+  <p>Legal considerations mainly concern asset use. Any third-party sprites, fonts, audio, or visual effects must be either original, public domain, licensed for student use, or properly credited. The project should avoid copyrighted characters, music, or recognisable commercial assets unless permission is clear. If AI-generated or downloaded assets are used, their licence and allowed use should be checked before submission.</p>
+  <p>Ethically, the game does not include gambling, personal data collection, online chat, or manipulative monetisation. The design is single-player and offline, which reduces privacy and security concerns. Since the game uses no accounts or network services, it should not collect or store personal information.</p>
+  <p>Accessibility should be considered even in a small prototype. The controls should be simple and visible in the interface. Failure should be recoverable through a quick reset. Puzzle states should be communicated visually through position, colour, and object state rather than colour alone where possible. The game should avoid excessive flashing effects, and hazards should be readable before they punish the player.</p>
+  <p>Socially, the game has a neutral theme and does not rely on stereotypes or sensitive real-world topics. The main theme of cooperating with past versions of oneself can be presented as a puzzle idea rather than a serious psychological claim.</p>
+
+  <h2>15. Development Schedule or Milestone Plan</h2>
+  <h3>Milestone 1: Core Prototype</h3>
+  <p>Create the player controller, basic level scene, camera, ground collision, and reset behaviour. At the end of this milestone the player should be able to move, jump, collide with platforms, and restart from the starting position.</p>
+  <h3>Milestone 2: Recording and Clone Replay</h3>
+  <p>Implement the recorder, recorded timeline data, clone playback, and clone spawning. Test that clones follow the recorded route closely enough to activate level objects reliably.</p>
+  <h3>Milestone 3: Basic Puzzle Loop</h3>
+  <p>Add pressure plates, doors, and goals. Build a first level where the player must record a clone standing on a plate while the live player reaches the exit.</p>
+  <h3>Milestone 4: Expanded Puzzle Objects</h3>
+  <p>Add crates, hazards, and switchable platforms. Build at least two additional levels that combine these systems with the clone mechanic.</p>
+  <h3>Milestone 5: Interface and Scene Flow</h3>
+  <p>Add main menu, story intro, ending scene, on-screen controls, recording status, clone count, and level transitions.</p>
+  <h3>Milestone 6: Testing and Polish</h3>
+  <p>Playtest each level from a fresh start. Fix collision problems, unclear instructions, clone spawning issues, and unfair hazard placement. Improve sprites, animation feedback, and level readability where time allows.</p>
+
+  <h2>Conclusion</h2>
+  <p>Temporal Paradox is designed as a focused Unity 2D puzzle-platformer where the central idea is not only moving through a level, but preparing actions that a future clone will repeat. The design is achievable because it uses a small set of reusable systems, but it still offers meaningful puzzle depth through the combination of recording, replay, physical objects, and timed level states. The most important success criteria are that the clone mechanic feels reliable, the levels clearly teach their rules, and the player can solve each puzzle through observation and experimentation.</p>
+</main>
+</body>
+</html>
