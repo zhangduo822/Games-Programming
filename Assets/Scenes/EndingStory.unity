@@ -146,10 +146,11 @@ MonoBehaviour:
   finishedDelay: 1.25
   targetSceneName: MainMenu
   storyLines:
-  - At the final door, the echoes stop chasing you.
-  - The paths you recorded settle into one clear moment.
-  - You return with every version of yourself finally at peace.
-  - Time remembers the journey, but it no longer traps you.
+  - The final portal opens, and the broken dimension begins to fade.
+  - The explorer steps through before time can pull him back again.
+  - His echoes vanish, leaving only the memories that helped him survive.
+  - At last, he returns home and finds his family waiting for him.
+  - The journey through time is over, and he is no longer alone.
 --- !u!4 &120002
 Transform:
   m_ObjectHideFlags: 0
