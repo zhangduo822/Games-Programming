@@ -9,10 +9,11 @@ public class StoryIntroController : MonoBehaviour
 
     private static readonly string[] StoryLines =
     {
-        "Time has fractured.",
-        "Every mistake leaves another version of you behind.",
-        "Record your path, summon your replay, and hold the world in place.",
-        "Only by working with your past can you reach the door ahead."
+        "An explorer wakes inside a world outside his own time.",
+        "The way home is gone, and the sky itself feels unfamiliar.",
+        "In this strange dimension, he discovers two impossible powers.",
+        "He can rewind time, and his past actions can return as living echoes.",
+        "To escape, he must work with his own copies and unlock the path home."
     };
 
     [SerializeField] private float charactersPerSecond = 26f;
