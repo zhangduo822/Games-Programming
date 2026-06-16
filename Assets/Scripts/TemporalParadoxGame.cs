@@ -46,6 +46,11 @@ public class TemporalParadoxGame : MonoBehaviour
     // Finds required components and fills default scene-transition settings.
     private void Awake()
     {
+        if (GetComponent<PauseSettingsMenu2D>() == null)
+        {
+            gameObject.AddComponent<PauseSettingsMenu2D>();
+        }
+
         if (cloneManager == null)
         {
             cloneManager = GetComponent<CloneManager>();
@@ -85,6 +90,11 @@ public class TemporalParadoxGame : MonoBehaviour
     // Handles recording, reset, clone spawning, and message timers.
     private void Update()
     {
+        if (PauseSettingsMenu2D.IsPaused)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("[DEBUG] R key pressed!");
@@ -312,6 +322,6 @@ public class TemporalParadoxGame : MonoBehaviour
             text += "\n\nLEVEL CLEARED";
         }
 
-        GUI.Box(new Rect(12, 12, 540, 210), text, style);
+        GUI.Box(new Rect(12, 58, 540, 210), text, style);
     }
 }
